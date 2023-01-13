@@ -10,7 +10,8 @@ namespace MVCStudentMedRepository.Data
         {
             this.applicationDbContext = applicationDbContext;
         }
-        public IEnumerable<Student> GetAll()
+
+		public IEnumerable<Student> GetAll()
         {
             return applicationDbContext.Students.OrderBy(x => x.LastName);
         }
