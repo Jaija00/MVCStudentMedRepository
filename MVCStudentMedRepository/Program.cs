@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MVCStudentMedRepository.Data;
+
 namespace MVCStudentMedRepository
 {
     public class Program
@@ -5,6 +8,11 @@ namespace MVCStudentMedRepository
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MVCStudents;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+            );
+
+            builder.Services.AddTransient<IStudent, StudentRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

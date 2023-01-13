@@ -1,14 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MVCStudentMedRepository.Data;
 
 namespace MVCStudentMedRepository.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly IStudent studentRep;
+
+        public StudentController(IStudent studentRep)
+        {
+            this.studentRep = studentRep;
+        }
         // GET: StudentController
         public ActionResult Index()
         {
-            return View();
+            return View(studentRep.GetAll());
         }
 
         // GET: StudentController/Details/5
