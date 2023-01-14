@@ -95,7 +95,6 @@ namespace MVCStudentMedRepository.Controllers
 				{
 					return View();
 				}
-				return RedirectToAction(nameof(Index));
 			}
 			return View(student);
 		}
@@ -135,7 +134,6 @@ namespace MVCStudentMedRepository.Controllers
 				{
 					return View();
 				}
-				return RedirectToAction(nameof(Index));
 			}
 			return View(studentRep.GetById(id));
 		}
