@@ -88,8 +88,6 @@ namespace MVCStudentMedRepository.Controllers
 				{
 					studentRep.Edit(student);
 					return RedirectToAction(nameof(Index));
-					//applicationDbContext.Update(student);
-					//applicationDbContext.SaveChanges();
 				}
 				catch (Exception)
 				{
@@ -120,15 +118,12 @@ namespace MVCStudentMedRepository.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			//var student = applicationDbContext.Students.Find(id);
 			if (ModelState.IsValid)
 			{
 				try
 				{
 					studentRep.Delete(id);
 					return RedirectToAction(nameof(Index));
-					//applicationDbContext.Remove(student);
-					//applicationDbContext.SaveChanges();
 				}
 				catch (Exception)
 				{
