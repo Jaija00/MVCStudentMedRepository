@@ -42,8 +42,7 @@ namespace MVCStudentMedRepository.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					applicationDbContext.Add(student);
-					applicationDbContext.SaveChanges();
+					studentRep.Add(student);
 					return RedirectToAction(nameof(Index));
 				}
 				else
@@ -60,12 +59,12 @@ namespace MVCStudentMedRepository.Controllers
 		// GET: StudentController/Edit/5
 		public ActionResult Edit(int id)
 		{
-			if (id == null || applicationDbContext.Students == null)
+			if (id == null || studentRep.GetAll() == null)
 			{
 				return NotFound();
 			}
 
-			var student = applicationDbContext.Students.Find(id);
+			var student = studentRep.GetById(id);
 			if (student == null)
 			{
 				return NotFound();
@@ -76,7 +75,7 @@ namespace MVCStudentMedRepository.Controllers
 		// POST: StudentController/Edit/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int? id, Student student)
+		public ActionResult Edit(int id, Student student)
 		{
 			if (id != student.Id)
 			{
@@ -87,8 +86,10 @@ namespace MVCStudentMedRepository.Controllers
 			{
 				try
 				{
-					applicationDbContext.Update(student);
-					applicationDbContext.SaveChanges();
+					studentRep.Edit(student);
+					return RedirectToAction(nameof(Index));
+					//applicationDbContext.Update(student);
+					//applicationDbContext.SaveChanges();
 				}
 				catch (Exception)
 				{
@@ -102,12 +103,12 @@ namespace MVCStudentMedRepository.Controllers
 		// GET: StudentController/Delete/5
 		public ActionResult Delete(int id)
 		{
-			if (id == null || applicationDbContext.Students == null)
+			if (id == null || studentRep.GetAll() == null)
 			{
 				return NotFound();
 			}
 
-			var student = applicationDbContext.Students.Find(id);
+			var student = studentRep.GetById(id);
 			if (student == null)
 			{
 				return NotFound();
@@ -120,13 +121,15 @@ namespace MVCStudentMedRepository.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			var student = applicationDbContext.Students.Find(id);
+			//var student = applicationDbContext.Students.Find(id);
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					applicationDbContext.Remove(student);
-					applicationDbContext.SaveChanges();
+					studentRep.Delete(id);
+					return RedirectToAction(nameof(Index));
+					//applicationDbContext.Remove(student);
+					//applicationDbContext.SaveChanges();
 				}
 				catch (Exception)
 				{
@@ -134,7 +137,7 @@ namespace MVCStudentMedRepository.Controllers
 				}
 				return RedirectToAction(nameof(Index));
 			}
-			return View(student);
+			return View(studentRep.GetById(id));
 		}
 	}
 }

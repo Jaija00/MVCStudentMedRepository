@@ -11,6 +11,27 @@ namespace MVCStudentMedRepository.Data
             this.applicationDbContext = applicationDbContext;
         }
 
+		public Student Add(Student student)
+		{
+			applicationDbContext.Students.Add(student);
+			applicationDbContext.SaveChanges();
+			return student;
+		}
+
+		public void Delete(int id)
+		{
+			var student = applicationDbContext.Students.Find(id);
+			applicationDbContext.Students.Remove(student);
+			applicationDbContext.SaveChanges();
+		}
+
+		public Student Edit(Student student)
+		{
+			applicationDbContext.Students.Update(student);
+			applicationDbContext.SaveChanges();
+			return student;
+		}
+
 		public IEnumerable<Student> GetAll()
         {
             return applicationDbContext.Students.OrderBy(x => x.LastName);
@@ -20,5 +41,5 @@ namespace MVCStudentMedRepository.Data
         {
             return applicationDbContext.Students.FirstOrDefault(x => x.Id == id);
         }
-    }
+	}
 }

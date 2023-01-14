@@ -6,5 +6,8 @@ namespace MVCStudentMedRepository.Data
     {
         Student GetById(int id);
         IEnumerable<Student> GetAll();
+        Student Add(Student student);
+        void Delete(int id);
+        Student Edit(Student student);
     }
 }
