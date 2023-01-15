@@ -8,12 +8,10 @@ namespace MVCStudentMedRepository.Controllers
 	public class StudentController : Controller
 	{
 		private readonly IStudent studentRep;
-		private readonly ApplicationDbContext applicationDbContext;
 
-		public StudentController(IStudent studentRep, ApplicationDbContext applicationDbContext)
+		public StudentController(IStudent studentRep)
 		{
 			this.studentRep = studentRep;
-			this.applicationDbContext = applicationDbContext;
 		}
 		// GET: StudentController
 		public ActionResult Index()
