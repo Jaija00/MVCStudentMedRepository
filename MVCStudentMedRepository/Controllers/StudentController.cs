@@ -40,7 +40,7 @@ namespace MVCStudentMedRepository.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					studentRep.Add(student);
+					studentRep.Create(student);
 					return RedirectToAction(nameof(Index));
 				}
 				else
@@ -84,7 +84,7 @@ namespace MVCStudentMedRepository.Controllers
 			{
 				try
 				{
-					studentRep.Edit(student);
+					studentRep.Update(student);
 					return RedirectToAction(nameof(Index));
 				}
 				catch (Exception)

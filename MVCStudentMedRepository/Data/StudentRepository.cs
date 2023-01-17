@@ -11,7 +11,7 @@ namespace MVCStudentMedRepository.Data
             this.applicationDbContext = applicationDbContext;
         }
 
-		public Student Add(Student student)
+		public Student Create(Student student)
 		{
 			applicationDbContext.Students.Add(student);
 			applicationDbContext.SaveChanges();
@@ -25,7 +25,7 @@ namespace MVCStudentMedRepository.Data
 			applicationDbContext.SaveChanges();
 		}
 
-		public Student Edit(Student student)
+		public Student Update(Student student)
 		{
 			applicationDbContext.Students.Update(student);
 			applicationDbContext.SaveChanges();
