@@ -12,14 +12,12 @@ namespace MVCStudentMedRepository.Controllers
 {
     public class StudentCourseController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IStudent studentRep;
         private readonly ICourse courseRep;
         private readonly IStudentCourse studentCourseRep;
 
-        public StudentCourseController(ApplicationDbContext context, IStudent studentRep, ICourse courseRep, IStudentCourse studentCourseRep)
+        public StudentCourseController(IStudent studentRep, ICourse courseRep, IStudentCourse studentCourseRep)
         {
-            _context = context;
             this.studentRep = studentRep;
             this.courseRep = courseRep;
             this.studentCourseRep = studentCourseRep;
@@ -146,11 +144,6 @@ namespace MVCStudentMedRepository.Controllers
 
             }
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool StudentCourseExists(int id)
-        {
-            return (_context.StudentCourses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

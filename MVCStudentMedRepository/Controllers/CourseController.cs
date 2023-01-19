@@ -12,7 +12,6 @@ namespace MVCStudentMedRepository.Controllers
 {
 	public class CourseController : Controller
 	{
-		private readonly ApplicationDbContext _context;
 		private readonly ICourse courseRep;
 		public CourseController(ICourse courseRep)
 		{
