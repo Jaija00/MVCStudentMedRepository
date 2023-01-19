@@ -101,16 +101,9 @@ namespace MVCStudentMedRepository.Controllers
                 {
                     studentCourseRep.Update(studentCourse);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!StudentCourseExists(studentCourse.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        return View();
-                    }
+                    return View();
                 }
                 return RedirectToAction(nameof(Index));
             }
