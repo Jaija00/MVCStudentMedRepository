@@ -9,11 +9,14 @@ namespace MVCStudentMedRepository
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MVCStudents;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MVCStudents;Integrated Security=True;" +
+            "Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;" +
+            "ApplicationIntent=ReadWrite;MultiSubnetFailover=False;MultipleActiveResultSets=True")
             );
-            //options.UseSqlLite();
+            //options.UseSqlite();
             builder.Services.AddTransient<IStudent, StudentRepository>();
             builder.Services.AddTransient<ICourse, CourseRepository>();
+            builder.Services.AddTransient<IStudentCourse, StudentCourseRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
