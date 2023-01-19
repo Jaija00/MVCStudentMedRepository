@@ -13,40 +13,33 @@ namespace MVCStudentMedRepository.Controllers
     public class StudentCourseController : Controller
     {
         private readonly ApplicationDbContext _context;
-		private readonly IStudent studentRep;
+        private readonly IStudent studentRep;
         private readonly ICourse courseRep;
+        private readonly IStudentCourse studentCourseRep;
 
-        public StudentCourseController(ApplicationDbContext context, IStudent studentRep, ICourse courseRep)
+        public StudentCourseController(ApplicationDbContext context, IStudent studentRep, ICourse courseRep, IStudentCourse studentCourseRep)
         {
             _context = context;
             this.studentRep = studentRep;
             this.courseRep = courseRep;
+            this.studentCourseRep = studentCourseRep;
         }
 
         // GET: StudentCourse
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return _context.StudentCourses != null ? 
-                          View(await _context.StudentCourses.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.StudentCourses'  is null.");
+            return View(studentCourseRep.GetAll());
         }
 
         // GET: StudentCourse/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null || _context.StudentCourses == null)
+            if (id == null || studentCourseRep.GetById(id) == null)
             {
                 return NotFound();
             }
 
-            var studentCourse = await _context.StudentCourses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (studentCourse == null)
-            {
-                return NotFound();
-            }
-
-            return View(studentCourse);
+            return View(studentCourseRep.GetById(id));
         }
 
         // GET: StudentCourse/Create
@@ -62,28 +55,27 @@ namespace MVCStudentMedRepository.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,CourseId,Grade,Completed")] StudentCourse studentCourse)
-        {        
+        public IActionResult Create([Bind("Id,StudentId,CourseId,Grade,Completed")] StudentCourse studentCourse)
+        {
             if (ModelState.IsValid)
             {
-                _context.Add(studentCourse);
-                await _context.SaveChangesAsync();
+                studentCourseRep.Create(studentCourse);
                 return RedirectToAction(nameof(Index));
             }
             return View(studentCourse);
         }
 
         // GET: StudentCourse/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
-			ViewBag.Students = new SelectList(studentRep.GetAll(), "Id", "FirstName");
+            ViewBag.Students = new SelectList(studentRep.GetAll(), "Id", "FirstName");
             ViewBag.Courses = new SelectList(courseRep.GetAll(), "Id", "Name");
-            if (id == null || _context.StudentCourses == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var studentCourse = await _context.StudentCourses.FindAsync(id);
+            var studentCourse = studentCourseRep.GetById(id);
             if (studentCourse == null)
             {
                 return NotFound();
@@ -96,7 +88,7 @@ namespace MVCStudentMedRepository.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,CourseId,Grade,Completed")] StudentCourse studentCourse)
+        public IActionResult Edit(int id, [Bind("Id,StudentId,CourseId,Grade,Completed")] StudentCourse studentCourse)
         {
             if (id != studentCourse.Id)
             {
@@ -107,8 +99,7 @@ namespace MVCStudentMedRepository.Controllers
             {
                 try
                 {
-                    _context.Update(studentCourse);
-                    await _context.SaveChangesAsync();
+                    studentCourseRep.Update(studentCourse);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,7 +109,7 @@ namespace MVCStudentMedRepository.Controllers
                     }
                     else
                     {
-                        throw;
+                        return View();
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -127,15 +118,14 @@ namespace MVCStudentMedRepository.Controllers
         }
 
         // GET: StudentCourse/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null || _context.StudentCourses == null)
+            if (id == null || studentCourseRep.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var studentCourse = await _context.StudentCourses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var studentCourse = studentCourseRep.GetById(id);
             if (studentCourse == null)
             {
                 return NotFound();
@@ -147,25 +137,27 @@ namespace MVCStudentMedRepository.Controllers
         // POST: StudentCourse/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(StudentCourse studentCourse)
         {
-            if (_context.StudentCourses == null)
+            if (ModelState.IsValid)
             {
-                return Problem("Entity set 'ApplicationDbContext.StudentCourses'  is null.");
+                try
+                {
+                    studentCourseRep.Delete(studentCourse);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    return View();
+                }
+
             }
-            var studentCourse = await _context.StudentCourses.FindAsync(id);
-            if (studentCourse != null)
-            {
-                _context.StudentCourses.Remove(studentCourse);
-            }
-            
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentCourseExists(int id)
         {
-          return (_context.StudentCourses?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.StudentCourses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
