@@ -49,6 +49,14 @@ namespace MVCStudentMedRepository.Controllers
         {
             ViewBag.Students = new SelectList(studentRep.GetAll(), "Id", "FirstName");
             ViewBag.Courses = new SelectList(courseRep.GetAll(), "Id", "Name");
+            List<SelectListItem> grade = new()
+            {
+                new SelectListItem{Value = "-", Text= "-"},
+                new SelectListItem{Value = "IG", Text= "IG"},
+                new SelectListItem{Value = "G", Text= "G"},
+                new SelectListItem{Value = "VG", Text= "VG"}
+            };
+            ViewBag.Grades = grade;
             return View();
         }
 
@@ -72,6 +80,14 @@ namespace MVCStudentMedRepository.Controllers
         {
             ViewBag.Students = new SelectList(studentRep.GetAll(), "Id", "FirstName");
             ViewBag.Courses = new SelectList(courseRep.GetAll(), "Id", "Name");
+            List<SelectListItem> grade = new()
+            {
+                new SelectListItem{Value = "-", Text= "-"},
+                new SelectListItem{Value = "IG", Text= "IG"},
+                new SelectListItem{Value = "G", Text= "G"},
+                new SelectListItem{Value = "VG", Text= "VG"}
+            };
+            ViewBag.Grades = grade;
             if (id == null)
             {
                 return NotFound();
