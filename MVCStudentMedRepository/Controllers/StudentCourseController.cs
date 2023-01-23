@@ -27,11 +27,6 @@ namespace MVCStudentMedRepository.Controllers
         // GET: StudentCourse
         public IActionResult Index()
         {
-
-            //StudentCourseViewModel studentCourseVM = new StudentCourseViewModel();
-            //studentCourseVM.StudentCourse = studentCourseRep.GetAll();
-            //studentCourseVM.Student = studentRep.GetById(studentCourseVM.StudentCourse.StudentId);
-            //studentCourseVM.Course = courseRep.GetById(studentCourseVM.StudentCourse.CourseId);
             return View(studentCourseRep.GetAll());
         }
 
