@@ -1,4 +1,4 @@
-﻿@model MVCStudentMedRepository.Models.StudentCourse
+﻿@model MVCStudentMedRepository.ViewModels.StudentCourseViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,32 +11,32 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StudentId)
+            @Html.DisplayNameFor(model => model.StudentCourse.StudentId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentId)
+            @Html.DisplayFor(model => model.Student.FirstName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseId)
+            @Html.DisplayNameFor(model => model.StudentCourse.CourseId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CourseId)
+            @Html.DisplayFor(model => model.Course.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Grade)
+            @Html.DisplayNameFor(model => model.StudentCourse.Grade)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Grade)
+            @Html.DisplayFor(model => model.StudentCourse.Grade)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Completed)
+            @Html.DisplayNameFor(model => model.StudentCourse.Completed)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Completed)
+            @Html.DisplayFor(model => model.StudentCourse.Completed)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

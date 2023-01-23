@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCStudentMedRepository.Data;
 using MVCStudentMedRepository.Models;
+using MVCStudentMedRepository.ViewModels;
 
 namespace MVCStudentMedRepository.Controllers
 {
@@ -26,6 +27,11 @@ namespace MVCStudentMedRepository.Controllers
         // GET: StudentCourse
         public IActionResult Index()
         {
+
+            //StudentCourseViewModel studentCourseVM = new StudentCourseViewModel();
+            //studentCourseVM.StudentCourse = studentCourseRep.GetAll();
+            //studentCourseVM.Student = studentRep.GetById(studentCourseVM.StudentCourse.StudentId);
+            //studentCourseVM.Course = courseRep.GetById(studentCourseVM.StudentCourse.CourseId);
             return View(studentCourseRep.GetAll());
         }
 
@@ -36,8 +42,11 @@ namespace MVCStudentMedRepository.Controllers
             {
                 return NotFound();
             }
-
-            return View(studentCourseRep.GetById(id));
+            StudentCourseViewModel studentCourseVM = new StudentCourseViewModel();
+            studentCourseVM.StudentCourse = studentCourseRep.GetById(id);
+            studentCourseVM.Student = studentRep.GetById(studentCourseVM.StudentCourse.StudentId);
+            studentCourseVM.Course = courseRep.GetById(studentCourseVM.StudentCourse.CourseId);
+            return View(studentCourseVM);
         }
 
         // GET: StudentCourse/Create
@@ -116,13 +125,16 @@ namespace MVCStudentMedRepository.Controllers
                 return NotFound();
             }
 
-            var studentCourse = studentCourseRep.GetById(id);
-            if (studentCourse == null)
+            StudentCourseViewModel studentCourseVM = new StudentCourseViewModel();
+            studentCourseVM.StudentCourse = studentCourseRep.GetById(id);
+            studentCourseVM.Student = studentRep.GetById(studentCourseVM.StudentCourse.StudentId);
+            studentCourseVM.Course = courseRep.GetById(studentCourseVM.StudentCourse.CourseId);
+            if (studentCourseVM == null)
             {
                 return NotFound();
             }
 
-            return View(studentCourse);
+            return View(studentCourseVM);
         }
 
         // POST: StudentCourse/Delete/5
