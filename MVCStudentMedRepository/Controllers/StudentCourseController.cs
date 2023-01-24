@@ -27,7 +27,19 @@ namespace MVCStudentMedRepository.Controllers
         // GET: StudentCourse
         public IActionResult Index()
         {
-            return View(studentCourseRep.GetAll());
+            var indexVM = new List<StudentCourseIndexViewModel>();
+            foreach (var item in studentCourseRep.GetAll())
+            {
+                var post = new StudentCourseIndexViewModel();
+                post.Id= item.Id;
+                post.Student = studentRep.GetById(item.StudentId).FirstName;
+                post.Course = courseRep.GetById(item.CourseId).Name;
+                post.Grade = item.Grade;
+                post.Completed = item.Completed;
+                indexVM.Add(post);
+            }
+            
+            return View(indexVM);
         }
 
         // GET: StudentCourse/Details/5
